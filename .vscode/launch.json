@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AppGestionIntegralApplication<App-gestion_integral>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "example.Appgestion_integral.AppGestionIntegralApplication",
+            "projectName": "App-gestion_integral",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AppGestionApplication<App_gestion>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.App_gestion.AppGestionApplication",
+            "projectName": "App_gestion",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
