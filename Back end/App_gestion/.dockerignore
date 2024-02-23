@@ -1,0 +1,5 @@
+# Ignora archivos y directorios que no se necesitan en la imagen Docker
+.git
+target/
+.idea/
+*.iml
