@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.TOKEN_CD}}
       
       - name: Build image
-        run:
+        run: |
             docker build . --tag ghcr.io/AlejandroDiazVera/app-gestion-integral:latest
             docker push ghcr.io/AlejandroDiazVera/app-gestion-integral:latest
             
