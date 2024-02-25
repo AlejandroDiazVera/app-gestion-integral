@@ -19,7 +19,9 @@ jobs:
           java-version: '17'
           maven-version: '3.8.4'
       - name: Build with Maven
-        run: mvn clean package
+        run: |
+          cd "./Back end/App_gestion"  # Cambia al directorio del proyecto
+          mvn clean package
 
       - name: Login to GitHub Container Register
         uses: docker/Login-action@v1
