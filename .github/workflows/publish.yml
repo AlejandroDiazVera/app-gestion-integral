@@ -49,6 +49,7 @@ jobs:
             docker pull ghcr.io/alejandrodiazvera/app-gestion-integral:latest
             docker stop ghcr.io/alejandrodiazvera/app-gestion-integral && docker rm ghcr.io/alejandrodiazvera/app-gestion-integral
             docker run -d -p 8080:8080 --restart always ghcr.io/alejandrodiazvera/app-gestion-integral
+            
             EOF
 
             
