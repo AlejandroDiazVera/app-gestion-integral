@@ -42,7 +42,10 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get install -y sshpass
 
-      # - name: Conectar al vps and Iniciar docker
+      - name: Conectar al vps and Iniciar docker
+        run: |
+            sshpass -p ${{secrets.SSH_PAS}} ssh ${{secrets.SSH_USER_IP}}
+            mkdir hola
 
 
             
