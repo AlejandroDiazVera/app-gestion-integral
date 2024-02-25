@@ -45,12 +45,10 @@ jobs:
       - name: Conectar al vps and Iniciar docker
         run: |
             sshpass -p ${{ secrets.SSH_PAS}} ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER_IP}} << EOF
-            cd docker
             docker login ghcr.io -u alejandrodiazvera -p ${{ secrets.TOKEN_CD}}
             docker pull ghcr.io/alejandrodiazvera/app-gestion-integral:latest
             docker stop app-gestion-integral && docker rm app-gestion-integral
-            docker run -d -p 8080:8080 --restart always app-gestion-integral
-
+            # docker run -d -p 8080:8080 --restart always app-gestion-integral
             EOF
 
             
