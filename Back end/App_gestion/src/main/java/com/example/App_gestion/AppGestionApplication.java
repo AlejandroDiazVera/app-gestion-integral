@@ -18,7 +18,7 @@ public class AppGestionApplication {
 
 	@GetMapping("/hello")
 	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hola en español %s!", name);
+		return String.format("Hola en español en Sevilla %s!", name);
 	}
 
 }
