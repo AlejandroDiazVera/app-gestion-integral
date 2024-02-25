@@ -21,9 +21,9 @@ jobs:
       
       - name: Build image
         run: |
-            docker build . --tag ghcr.io/alejandrodiazvera/app-gestion-integral:latest
+            docker build ./Back end\App_gestion --tag ghcr.io/alejandrodiazvera/app-gestion-integral:latest
             docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
 
             
-             
+            
        
