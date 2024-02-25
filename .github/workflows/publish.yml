@@ -47,12 +47,26 @@ jobs:
             sshpass -p ${{ secrets.SSH_PAS}} ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER_IP}} << EOF
             docker login ghcr.io -u alejandrodiazvera -p ${{ secrets.TOKEN_CD}}
             docker pull ghcr.io/alejandrodiazvera/app-gestion-integral:latest
-            docker stop app-gest && docker rm app-gest && docker rmi ghcr.io/alejandrodiazvera/app-gestion-integral
+            # Verificar si el contenedor 'app-gest' existe
+            if docker ps -a --format '{{.Names}}' | grep -q "app-gest"; then
+                docker stop app-gest
+                docker rm app-gest
+            else
+                echo "El contenedor 'app-gest' no existe"
+            fi
+        
+            # Eliminar la imagen si existe
+            if docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "ghcr.io/alejandrodiazvera/app-gestion-integral:latest"; then
+                docker rmi ghcr.io/alejandrodiazvera/app-gestion-integral
+            fi
+        
+            # Ejecutar el nuevo contenedor
             docker run -d \
-            -p 8080:8080 \
-            --restart always \
-            --app-gest \
-            ghcr.io/alejandrodiazvera/app-gestion-integral
+                -p 8080:8080 \
+                --restart always \
+                --name app-gest \
+                ghcr.io/alejandrodiazvera/app-gestion-integral
+        
             EOF
 
             
