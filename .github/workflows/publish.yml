@@ -11,16 +11,13 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
-
-
+        
       - name: Set up Java with Maven
         uses: actions/setup-java@v2
         with:
-          java-version: '11'
+          distribution: 'adopt'
+          java-version: '17'
           maven-version: '3.8.4'
-
-      - name: Build with Maven
-        run: mvn clean package
 
       - name: Login to GitHub Container Register
         uses: docker/Login-action@v1
