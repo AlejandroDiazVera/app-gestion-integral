@@ -6,37 +6,37 @@ on:
 
 
 jobs:
-  # create-docker-image:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout the code
-  #       uses: actions/checkout@v2
+  create-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
 
-  #     - name: Set up Java with Maven
-  #       uses: actions/setup-java@v2
-  #       with:
-  #         distribution: 'adopt'
-  #         java-version: '17'
-  #         maven-version: '3.8.4'
-  #     - name: Build with Maven
-  #       run: |
-  #         cd "./Back end/App_gestion" 
-  #         mvn clean package
+      - name: Set up Java with Maven
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          maven-version: '3.8.4'
+      - name: Build with Maven
+        run: |
+          cd "./Back end/App_gestion" 
+          mvn clean package
 
-  #     - name: Login to GitHub Container Register
-  #       uses: docker/Login-action@v1
-  #       with:
-  #         registry: ghcr.io
-  #         username: ${{ github.actor}}
-  #         password: ${{ secrets.TOKEN_CD}}
+      - name: Login to GitHub Container Register
+        uses: docker/Login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor}}
+          password: ${{ secrets.TOKEN_CD}}
       
-  #     - name: Build image
-  #       run: |
-  #           docker build -t ghcr.io/alejandrodiazvera/app-gestion-integral:latest "./Back end/App_gestion"
-  #           docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
+      - name: Build image
+        run: |
+            docker build -t ghcr.io/alejandrodiazvera/app-gestion-integral:latest "./Back end/App_gestion"
+            docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
 
   deploy:
-    # needs: create-docker-image
+    needs: create-docker-image
     runs-on: ubuntu-latest
     steps:
       - name: Install sshpass
@@ -49,7 +49,7 @@ jobs:
             docker pull ghcr.io/alejandrodiazvera/app-gestion-integral:latest
             docker stop ghcr.io/alejandrodiazvera/app-gestion-integral && docker rm ghcr.io/alejandrodiazvera/app-gestion-integral
             docker run -d -p 8080:8080 --restart always ghcr.io/alejandrodiazvera/app-gestion-integral
-            
+
             EOF
 
             
