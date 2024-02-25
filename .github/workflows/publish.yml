@@ -44,7 +44,7 @@ jobs:
 
       - name: Conectar al vps and Iniciar docker
         run: |
-            sshpass -p ${{secrets.SSH_PAS}} ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER_IP}} << EOF
+            sshpass -p ${{ secrets.SSH_PAS}} ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER_IP}} << EOF
             mkdir hola
             EOF
 
