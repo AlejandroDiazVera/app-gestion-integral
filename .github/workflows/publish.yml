@@ -1,0 +1,20 @@
+name: publish
+
+on:
+  push:
+    branches: ["main"]
+
+
+jobs:
+  create-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Register
+        uses: docker/Login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor}}
+          password: ${{ secrets.TOKEN_CD}}
