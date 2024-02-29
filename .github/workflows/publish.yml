@@ -27,17 +27,17 @@ jobs:
           cd "./Back end/App_gestion" 
           #Este es el comando en cuestion,
           mvn clean package
-        #Los contenedores se pueden almacenar en fg en el aprtado de packgaes este subpaso se logea en 
+        #Los contenedores se pueden almacenar en github en el aprtado de packgaes este subpaso se logea en 
         #Los s contenedores 
       - name: Login to s Container Register
         uses: docker/Login-action@v1
         with:
-          #Estas son las credenciales estan en forma de variables por que estan alamcenadas en fg para mas seguridada.
+          #Estas son las credenciales estan en forma de variables por que estan alamcenadas en github para mas seguridada.
           registry: ghcr.io
-          username: ${{ fg.actor}}
+          username: ${{ github.actor}}
           password: ${{ secrets.TOKEN_CD}}
       #Construccion del docker Pripero se busca el lugar donde esta el dockerfile.continue-on-error: 
-      #Despúes se sube el docker a fg
+      #Despúes se sube el docker a github
       - name: Build image
         run: |
             docker build -t ghcr.io/alejandrodiazvera/app-gestion-integral:latest "./Back end/App_gestion"
@@ -54,7 +54,7 @@ jobs:
 
       - name: Conectar al vps and Iniciar docker
         run: |
-            #Conectarse al vps con las credenciales almacendas en fg t tambien la coneccion al fg en el apartado de contenedores.
+            #Conectarse al vps con las credenciales almacendas en github t tambien la coneccion al github en el apartado de contenedores.
             sshpass -p ${{ secrets.SSH_PAS}} ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER_IP}} << EOF
             docker login ghcr.io -u alejandrodiazvera -p ${{ secrets.TOKEN_CD}}
           
@@ -72,7 +72,7 @@ jobs:
             else 
                 echo "La imagen no existe"
             fi
-            #Descaragar el contenedor desde fg
+            #Descaragar el contenedor desde github
             docker pull ghcr.io/alejandrodiazvera/app-gestion-integral:latest
             # Ejecutar el nuevo contenedor
             docker run -d \
