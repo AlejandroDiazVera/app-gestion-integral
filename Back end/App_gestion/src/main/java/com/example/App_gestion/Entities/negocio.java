@@ -17,5 +17,6 @@ public class negocio implements Serializable {
     @SequenceGenerator(name = "negocio_sequence", sequenceName = "negocio_sequence", allocationSize = 100)
     private Long id;
     private String nombre;
-
+   
+    
 }
