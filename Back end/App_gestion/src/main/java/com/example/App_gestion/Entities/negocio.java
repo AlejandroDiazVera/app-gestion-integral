@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 
 import java.io.Serializable;
 
+
 @jakarta.persistence.Entity
 @Table(name = "negocio")
 public class negocio implements Serializable {
