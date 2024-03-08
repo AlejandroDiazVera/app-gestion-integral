@@ -1,0 +1,86 @@
+name: publish
+#Accion que inicia el flujo en este caso es la actualizacion a la rama main 
+on:
+  push:
+    branches: ["main"]
+
+#Flujo en este caso el flujo esta dividido en dos creacion del docker y luego el deploy 
+jobs:
+  #Creacion del docker 
+  create-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      #Este subpaso copia todo lo del repositorio al contenedor 
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      #Para que un docker se puedea  ejecutar se debe llevar el proyecto a produccion 
+      #En el caso de Sprintg boot nos apoyamos de maven para poder generar el .jar final 
+      #Esta linea Instala el Maven
+      - name: Set up Java with Maven
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+          maven-version: '3.8.4'
+      - name: Build with Maven
+        run: |
+          cd "./Back end/App_gestion" 
+          #Este es el comando en cuestion,
+          mvn clean package
+        #Los contenedores se pueden almacenar en github en el aprtado de packgaes este subpaso se logea en 
+        #Los s contenedores 
+      - name: Login to s Container Register
+        uses: docker/Login-action@v1
+        with:
+          #Estas son las credenciales estan en forma de variables por que estan alamcenadas en github para mas seguridada.
+          registry: ghcr.io
+          username: ${{ github.actor}}
+          password: ${{ secrets.TOKEN_CD}}
+      #Construccion del docker Pripero se busca el lugar donde esta el dockerfile.continue-on-error: 
+      #Despúes se sube el docker a github
+      - name: Build image
+        run: |
+            docker build -t ghcr.io/alejandrodiazvera/app-gestion-integral:latest "./Back end/App_gestion"
+            docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
+#Segunda etapa conexion y actualizacion del docker:
+  deploy:
+    #Comando para dar la orden de que es necesario que se finalice la etapa anterior.
+    needs: create-docker-image
+    runs-on: ubuntu-latest
+    steps:
+        #Instalacion del sshpass para poder conectarnos de manera mas sencilla al vps via ssh.
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: Conectar al vps and Iniciar docker
+        run: |
+            #Conectarse al vps con las credenciales almacendas en github t tambien la coneccion al github en el apartado de contenedores.
+            sshpass -p ${{ secrets.SSH_PAS}} ssh -o StrictHostKeyChecking=no ${{secrets.SSH_USER_IP}} << EOF
+            docker login ghcr.io -u alejandrodiazvera -p ${{ secrets.TOKEN_CD}}
+          
+            # Verificar si el contenedor 'app-gest' existe
+            if docker ps -a --format '{{.Names}}' | grep -q "app-gest"; then
+                docker stop app-gest
+                docker rm app-gest
+            else
+                echo "El contenedor 'app-gest' no existe"
+            fi
+        
+            # Eliminar la imagen si existe
+            if docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "ghcr.io/alejandrodiazvera/app-gestion-integral"; then
+                docker rmi ghcr.io/alejandrodiazvera/app-gestion-integral
+            else 
+                echo "La imagen no existe"
+            fi
+            #Descaragar el contenedor desde github
+            docker pull ghcr.io/alejandrodiazvera/app-gestion-integral:latest
+            # Ejecutar el nuevo contenedor
+            docker run -d \
+                -p 8080:8080 \
+                --restart always \
+                --name app-gest \
+                ghcr.io/alejandrodiazvera/app-gestion-integral
+            EOF
+
+            
+       
