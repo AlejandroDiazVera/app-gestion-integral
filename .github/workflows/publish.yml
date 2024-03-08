@@ -2,7 +2,7 @@ name: publish
 #Accion que inicia el flujo en este caso es la actualizacion a la rama main 
 on:
   push:
-    branches: ["main"]
+    branches: ["feacture/Todo"]
 
 #Flujo en este caso el flujo esta dividido en dos creacion del docker y luego el deploy 
 jobs:
