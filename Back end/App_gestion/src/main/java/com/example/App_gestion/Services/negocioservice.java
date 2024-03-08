@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.example.App_gestion.Entities.negocio;
 import com.example.App_gestion.repository.negociorepository;
 
+import lombok.NonNull;
+
 @Service
 // @Transactional
 public class negocioservice {
@@ -21,25 +23,18 @@ public class negocioservice {
         return negociorepository.findAll();
     }
 
-    public Optional<negocio> getByIdNegocio(Long id){
+    public Optional<negocio> getByIdNegocio(Long id) {
         return negociorepository.findById(id);
     }
 
+    public void deleteByid(Long id) {
 
-    public void deleteByid(Long id){
-    
         negociorepository.deleteById(id);
-        
-        
+
     }
 
-
-    public void saveOrUpdate(negocio mynegocio){
+    public void saveOrUpdate(negocio mynegocio) {
         negociorepository.save(mynegocio);
     }
-
- 
- 
-
 
 }

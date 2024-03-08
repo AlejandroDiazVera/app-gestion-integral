@@ -2,7 +2,8 @@ name: publish
 #Accion que inicia el flujo en este caso es la actualizacion a la rama main 
 on:
   push:
-    branches: ["feacture/Todo"]
+    branches: ["main"]
+
 
     
 #Flujo en este caso el flujo esta dividido en dos creacion del docker y luego el deploy 
@@ -30,6 +31,18 @@ jobs:
           mvn clean package
         #Los contenedores se pueden almacenar en github en el aprtado de packgaes este subpaso se logea en 
         #Los s contenedores 
+
+
+      - name: Check for .jar file
+        run: |
+          cd "./Back end/App_gestion"
+          if [ -f "./target/App_gestion-0.0.1-SNAPSHOT.jar" ]; then
+            echo "Jar file exists"
+          else
+            echo "Jar file not found. Aborting."
+            exit 1
+          fi
+
       - name: Login to s Container Register
         uses: docker/Login-action@v1
         with:
@@ -42,7 +55,7 @@ jobs:
       - name: Build image
         run: |
             docker build -t ghcr.io/alejandrodiazvera/app-gestion-integral:latest "./Back end/App_gestion"
-            docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
+            # docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
 #Segunda etapa conexion y actualizacion del docker:
   deploy:
     #Comando para dar la orden de que es necesario que se finalice la etapa anterior.
