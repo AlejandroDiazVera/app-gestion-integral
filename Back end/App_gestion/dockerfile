@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk-alpine
 #copiar el archivo donde se empaqueta la aplicasion despues de ejecutar "mvn clean package" y el segundo argumento
 #el nombre del archivo dentro del docker 
-COPY target/App_gestion-0.0.1-SNAPSHOT.jar app.jar
+COPY ./target/App_gestion-0.0.1-SNAPSHOT.jar app.jar
 #Exponer el puerto 8080 claro esta que en vps debe estar el expusto tambien 
 EXPOSE 8080
 
