@@ -4,7 +4,8 @@ on:
   push:
     branches: ["main"]
 
-    
+
+
 #Flujo en este caso el flujo esta dividido en dos creacion del docker y luego el deploy 
 jobs:
   #Creacion del docker 
