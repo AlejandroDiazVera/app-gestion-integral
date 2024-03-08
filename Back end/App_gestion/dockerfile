@@ -4,10 +4,10 @@ FROM openjdk:11-jdk-slim
 WORKDIR /app
 
 # Copia el JAR de la aplicación al contenedor
-COPY ./target/App_gestion-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY  App_gestion-0.0.1-SNAPSHOT.jar app.jar
 
 # Expone el puerto 8080
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación cuando el contenedor se inicie
-CMD ["java", "-jar", "/app/app.jar"]
+CMD ["java", "-jar", "app.jar"]
