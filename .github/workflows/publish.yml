@@ -53,7 +53,7 @@ jobs:
       - name: Build image
         run: |
             docker build -t ghcr.io/alejandrodiazvera/app-gestion-integral:latest "./Back end/App_gestion"
-            docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
+            # docker push ghcr.io/alejandrodiazvera/app-gestion-integral:latest
 #Segunda etapa conexion y actualizacion del docker:
   deploy:
     #Comando para dar la orden de que es necesario que se finalice la etapa anterior.
