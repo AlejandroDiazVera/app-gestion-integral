@@ -1,13 +1,9 @@
-# Usa una imagen base de Java
-FROM openjdk:11-jdk-slim
-
-# Establece el directorio de trabajo en /app
-WORKDIR /app
-
-# Copia el JAR de la aplicación al contenedor
-COPY App_gestion-0.0.1-SNAPSHOT.jar app.jar
-
-# Expone el puerto 8080
+#Descarhar una version del alpine con un openjdk 17 que es la misma vesion del spring boot 
+FROM openjdk:17-jdk-alpine
+#copiar el archivo donde se empaqueta la aplicasion despues de ejecutar "mvn clean package" y el segundo argumento
+#el nombre del archivo dentro del docker 
+COPY ./target/App_gestion-0.0.1-SNAPSHOT.jar app.jar
+#Exponer el puerto 8080 claro esta que en vps debe estar el expusto tambien 
 EXPOSE 8080
 
 # Comando para ejecutar la aplicación cuando el contenedor se inicie
