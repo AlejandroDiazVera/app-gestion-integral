@@ -3,6 +3,8 @@ name: publish
 on:
   push:
     branches: ["main"]
+  pull_request: 
+    branches: ["main"]
 
 #Flujo en este caso el flujo esta dividido en dos creacion del docker y luego el deploy 
 jobs:
